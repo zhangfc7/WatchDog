@@ -50,8 +50,8 @@ namespace WatchDog.src.Helpers
         public static async Task InsertWatchLog(WatchLog log)
         {
             bool isPostgres = GeneralHelper.IsPostgres();
-            var query = @$"INSERT INTO {Constants.WatchLogTableName} (responseBody,responseStatus,requestBody,queryString,path,requestHeaders,responseHeaders,method,host,ipAddress,timeSpent,startTime,endTime) " +
-                "VALUES (@ResponseBody,@ResponseStatus,@RequestBody,@QueryString,@Path,@RequestHeaders,@ResponseHeaders,@Method,@Host,@IpAddress,@TimeSpent,@StartTime,@EndTime);";
+            var query = @$"INSERT INTO {Constants.WatchLogTableName} (responseBody,responseStatus,requestBody,queryString,path,requestHeaders,responseHeaders,method,host,ipAddress,timeSpent,startTime,endTime,createUserId,createUserName) " +
+                "VALUES (@ResponseBody,@ResponseStatus,@RequestBody,@QueryString,@Path,@RequestHeaders,@ResponseHeaders,@Method,@Host,@IpAddress,@TimeSpent,@StartTime,@EndTime,@CreateUserId,@CreateUserName);";
 
             var parameters = new DynamicParameters();
             parameters.Add("ResponseBody", isPostgres ? log.ResponseBody.Replace("\u0000", "") : log.ResponseBody, DbType.String);
@@ -65,6 +65,8 @@ namespace WatchDog.src.Helpers
             parameters.Add("Host", log.Host, DbType.String);
             parameters.Add("IpAddress", log.IpAddress, DbType.String);
             parameters.Add("TimeSpent", log.TimeSpent, DbType.String);
+            parameters.Add("CreateUserId", log.CreateUserId, DbType.String);
+            parameters.Add("CreateUserName", log.CreateUserName, DbType.String);
 
             if (isPostgres)
             {
@@ -106,8 +108,8 @@ namespace WatchDog.src.Helpers
 
         public static async Task InsertWatchExceptionLog(WatchExceptionLog log)
         {
-            var query = @$"INSERT INTO {Constants.WatchLogExceptionTableName} (message,stackTrace,typeOf,source,path,method,queryString,requestBody,encounteredAt) " +
-                "VALUES (@Message,@StackTrace,@TypeOf,@Source,@Path,@Method,@QueryString,@RequestBody,@EncounteredAt);";
+            var query = @$"INSERT INTO {Constants.WatchLogExceptionTableName} (message,stackTrace,typeOf,source,path,method,queryString,requestBody,encounteredAt,createUserId,createUserName) " +
+                "VALUES (@Message,@StackTrace,@TypeOf,@Source,@Path,@Method,@QueryString,@RequestBody,@EncounteredAt,@CreateUserId,@CreateUserName);";
 
             var parameters = new DynamicParameters();
             parameters.Add("Message", log.Message, DbType.String);
@@ -118,6 +120,8 @@ namespace WatchDog.src.Helpers
             parameters.Add("Method", log.Method, DbType.String);
             parameters.Add("QueryString", log.QueryString, DbType.String);
             parameters.Add("RequestBody", log.RequestBody, DbType.String);
+            parameters.Add("CreateUserId", log.CreateUserId, DbType.String);
+            parameters.Add("CreateUserName", log.CreateUserName, DbType.String);
 
             if (GeneralHelper.IsPostgres())
             {
@@ -166,8 +170,8 @@ namespace WatchDog.src.Helpers
 
         public static async Task InsertLog(WatchLoggerModel log)
         {
-            var query = @$"INSERT INTO {Constants.LogsTableName} (message,eventId,timestamp,callingFrom,callingMethod,lineNumber,logLevel) " +
-                "VALUES (@Message,@EventId,@Timestamp,@CallingFrom,@CallingMethod,@LineNumber,@LogLevel);";
+            var query = @$"INSERT INTO {Constants.LogsTableName} (message,eventId,timestamp,callingFrom,callingMethod,lineNumber,logLevel,createUserId,createUserName) " +
+                "VALUES (@Message,@EventId,@Timestamp,@CallingFrom,@CallingMethod,@LineNumber,@LogLevel,@CreateUserId,@CreateUserName);";
 
             var parameters = new DynamicParameters();
             parameters.Add("Message", log.Message, DbType.String);
@@ -176,6 +180,8 @@ namespace WatchDog.src.Helpers
             parameters.Add("LineNumber", log.LineNumber, DbType.Int32);
             parameters.Add("LogLevel", log.LogLevel, DbType.String);
             parameters.Add("EventId", log.EventId, DbType.String);
+            parameters.Add("CreateUserId", log.CreateUserId, DbType.String);
+            parameters.Add("CreateUserName", log.CreateUserName, DbType.String);
 
             if (GeneralHelper.IsPostgres())
             {

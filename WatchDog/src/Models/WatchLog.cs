@@ -18,5 +18,8 @@ namespace WatchDog.src.Models
         public string TimeSpent { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
+        public string CreateUserId { get; set; }
+        public string CreateUserName { get; set; }
+
     }
 }

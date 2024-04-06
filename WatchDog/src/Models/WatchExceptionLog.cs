@@ -14,5 +14,7 @@ namespace WatchDog.src.Models
         public string QueryString { get; set; }
         public string RequestBody { get; set; }
         public DateTime EncounteredAt { get; set; }
+        public string CreateUserId { get; set; }
+        public string CreateUserName { get; set; }
     }
 }

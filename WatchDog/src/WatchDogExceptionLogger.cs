@@ -43,6 +43,8 @@ namespace WatchDog.src
             watchExceptionLog.Method = requestModel?.Method;
             watchExceptionLog.QueryString = requestModel?.QueryString;
             watchExceptionLog.RequestBody = requestModel?.RequestBody;
+            watchExceptionLog.CreateUserId = "V9999";
+            watchExceptionLog.CreateUserName = "张三";
 
             //Insert
             await DynamicDBManager.InsertWatchExceptionLog(watchExceptionLog);

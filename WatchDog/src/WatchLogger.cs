@@ -86,7 +86,9 @@ namespace WatchDog
                     CallingFrom = Path.GetFileName(filePath),
                     CallingMethod = callerName,
                     LineNumber = lineNumber,
-                    LogLevel = level
+                    LogLevel = level,
+                    CreateUserId = "V9999",
+                    CreateUserName = "张三"
                 };
 
                 //Insert

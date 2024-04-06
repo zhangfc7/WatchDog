@@ -70,7 +70,9 @@ namespace WatchDog.src
                     RequestHeaders = requestLog.Headers,
                     ResponseHeaders = responseLog.Headers,
                     StartTime = requestLog.StartTime,
-                    EndTime = responseLog.FinishTime
+                    EndTime = responseLog.FinishTime,
+                    CreateUserId = "V9999",
+                    CreateUserName = "张三"
                 };
 
                 await DynamicDBManager.InsertWatchLog(watchLog);

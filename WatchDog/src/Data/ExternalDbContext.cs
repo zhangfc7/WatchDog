@@ -110,7 +110,9 @@ namespace WatchDog.src.Data
                               ipAddress       VARCHAR(30),
                               timeSpent       VARCHAR(100),
                               startTime       VARCHAR(100) NOT NULL,
-                              endTime         VARCHAR(100) NOT NULL
+                              endTime         VARCHAR(100) NOT NULL,
+                              createUserId    VARCHAR(100),
+                              createUserName  VARCHAR(100)
                             );
                            CREATE TABLE IF NOT EXISTS {Constants.WatchLogExceptionTableName} (
                                 id            INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -122,7 +124,9 @@ namespace WatchDog.src.Data
                                 method        VARCHAR(30),
                                 queryString   TEXT,
                                 requestBody   TEXT,
-                                encounteredAt VARCHAR(100) NOT NULL
+                                encounteredAt VARCHAR(100) NOT NULL,
+                                createUserId    VARCHAR(100),
+                                createUserName  VARCHAR(100)
                              );
                            CREATE TABLE IF NOT EXISTS {Constants.LogsTableName} (
                                 id            INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -132,7 +136,9 @@ namespace WatchDog.src.Data
                                 callingFrom   VARCHAR(100),
                                 callingMethod VARCHAR(100),
                                 lineNumber    INT,
-                                logLevel      VARCHAR(30)
+                                logLevel      VARCHAR(30),
+                                createUserId  VARCHAR(100),
+                                createUserName VARCHAR(100)
                              );
                         ",
 
