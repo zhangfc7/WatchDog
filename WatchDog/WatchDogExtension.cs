@@ -61,14 +61,9 @@ namespace WatchDog
 
             if (!string.IsNullOrEmpty(WatchDogExternalDbConfig.ConnectionString))
             {
-                if (WatchDogDatabaseDriverOption.DatabaseDriverOption == src.Enums.WatchDogDbDriverEnum.Mongo)
-                {
-                    ExternalDbContext.MigrateNoSql();
-                }
-                else
-                {
-                    ExternalDbContext.Migrate();
-                }
+
+                ExternalDbContext.Migrate();
+
             }
 
             if (AutoClearModel.IsAutoClear)

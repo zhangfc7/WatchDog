@@ -36,8 +36,6 @@ namespace WatchDog.src.Managers
             GetTargetDbEnum switch
             {
                 TargetDbEnum.SqlDb => await SQLDbHelper.ClearLogs(),
-                TargetDbEnum.LiteDb => LiteDBHelper.ClearAllLogs(),
-                TargetDbEnum.MongoDb => await MongoDBHelper.ClearAllLogs(),
                 _ => throw new NotImplementedException()
             };
 
@@ -46,8 +44,6 @@ namespace WatchDog.src.Managers
             GetTargetDbEnum switch
             {
                 TargetDbEnum.SqlDb => await SQLDbHelper.GetAllWatchLogs(searchString, verbString, statusCode, pageNumber),
-                TargetDbEnum.LiteDb => LiteDBHelper.GetAllWatchLogs(searchString, verbString, statusCode, pageNumber),
-                TargetDbEnum.MongoDb => MongoDBHelper.GetAllWatchLogs(searchString, verbString, statusCode, pageNumber),
                 _ => throw new NotImplementedException()
             };
 
@@ -58,12 +54,6 @@ namespace WatchDog.src.Managers
                 case TargetDbEnum.SqlDb: 
                     await SQLDbHelper.InsertWatchLog(log);
                     break;
-                case TargetDbEnum.LiteDb:
-                    LiteDBHelper.InsertWatchLog(log);
-                    break;
-                case TargetDbEnum.MongoDb:
-                    await MongoDBHelper.InsertWatchLog(log);
-                    break;
             }
         }
 
@@ -72,8 +62,6 @@ namespace WatchDog.src.Managers
             GetTargetDbEnum switch
             {
                 TargetDbEnum.SqlDb => await SQLDbHelper.GetAllWatchExceptionLogs(searchString, pageNumber),
-                TargetDbEnum.LiteDb => LiteDBHelper.GetAllWatchExceptionLogs(searchString, pageNumber),
-                TargetDbEnum.MongoDb => MongoDBHelper.GetAllWatchExceptionLogs(searchString, pageNumber),
                 _ => throw new NotImplementedException()
             };
 
@@ -84,12 +72,6 @@ namespace WatchDog.src.Managers
                 case TargetDbEnum.SqlDb:
                     await SQLDbHelper.InsertWatchExceptionLog(log);
                     break;
-                case TargetDbEnum.LiteDb:
-                    LiteDBHelper.InsertWatchExceptionLog(log);
-                    break;
-                case TargetDbEnum.MongoDb:
-                    await MongoDBHelper.InsertWatchExceptionLog(log);
-                    break;
             }
         }
 
@@ -98,8 +80,6 @@ namespace WatchDog.src.Managers
             GetTargetDbEnum switch
             {
                 TargetDbEnum.SqlDb => await SQLDbHelper.GetAllLogs(searchString, logLevelString, pageNumber),
-                TargetDbEnum.LiteDb => LiteDBHelper.GetAllLogs(searchString, logLevelString, pageNumber),
-                TargetDbEnum.MongoDb => MongoDBHelper.GetAllLogs(searchString, logLevelString, pageNumber),
                 _ => throw new NotImplementedException()
             };
 
@@ -108,12 +88,6 @@ namespace WatchDog.src.Managers
             switch (GetTargetDbEnum) {
                 case TargetDbEnum.SqlDb: 
                     await SQLDbHelper.InsertLog(log);
-                    break;
-                case TargetDbEnum.LiteDb:
-                    LiteDBHelper.InsertLog(log);
-                    break;
-                case TargetDbEnum.MongoDb:
-                    await MongoDBHelper.InsertLog(log);
                     break;
             }
         }

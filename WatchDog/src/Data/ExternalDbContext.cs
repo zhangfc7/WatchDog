@@ -1,8 +1,5 @@
 ﻿using Dapper;
-using MongoDB.Bson;
-using MongoDB.Driver;
 using MySql.Data.MySqlClient;
-using Npgsql;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -23,8 +20,6 @@ namespace WatchDog.src.Data
             {
                 WatchDogDbDriverEnum.MSSQL => CreateMSSQLConnection(),
                 WatchDogDbDriverEnum.MySql => CreateMySQLConnection(),
-                WatchDogDbDriverEnum.PostgreSql => CreatePostgresConnection(),
-                _ => throw new NotSupportedException()
             };
 
         public static void Migrate() => BootstrapTables();
@@ -54,41 +49,7 @@ namespace WatchDog.src.Data
 
         }
 
-        public static void MigrateNoSql()
-        {
-            try
-            {
-                var mongoClient = CreateMongoDBConnection();
-                var database = mongoClient.GetDatabase(WatchDogExternalDbConfig.MongoDbName);
-                _ = database.GetCollection<WatchLog>(Constants.WatchLogTableName);
-                _ = database.GetCollection<WatchExceptionLog>(Constants.WatchLogExceptionTableName);
-                _ = database.GetCollection<WatchLoggerModel>(Constants.LogsTableName);
-
-                //Seed counterDb
-                var filter = new BsonDocument("name", Constants.WatchDogMongoCounterTableName);
-
-                // Check if the collection exists
-                var collections = database.ListCollections(new ListCollectionsOptions { Filter = filter });
-
-                bool exists = collections.Any();
-                var _counter = database.GetCollection<Sequence>(Constants.WatchDogMongoCounterTableName);
-
-                if (!exists)
-                {
-                    var sequence = new Sequence
-                    {
-                        _Id = "sequenceId",
-                        Value = 0
-                    };
-                    _counter.InsertOne(sequence);
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message.ToString());
-                throw new WatchDogDatabaseException(ex.Message);
-            }
-        }
+        
 
         public static string GetSqlQueryString() =>
             WatchDogDatabaseDriverOption.DatabaseDriverOption switch
@@ -218,17 +179,7 @@ namespace WatchDog.src.Data
                 _ => ""
             };
 
-        public static NpgsqlConnection CreatePostgresConnection()
-        {
-            try
-            {
-                return new NpgsqlConnection(_connectionString);
-            }
-            catch (Exception ex)
-            {
-                throw new WatchDogDatabaseException(ex.Message);
-            }
-        }
+        
 
         public static MySqlConnection CreateMySQLConnection()
         {
@@ -247,18 +198,6 @@ namespace WatchDog.src.Data
             try
             {
                 return new SqlConnection(_connectionString);
-            }
-            catch (Exception ex)
-            {
-                throw new WatchDogDatabaseException(ex.Message);
-            }
-        }
-
-        public static MongoClient CreateMongoDBConnection()
-        {
-            try
-            {
-                return new MongoClient(_connectionString);
             }
             catch (Exception ex)
             {
